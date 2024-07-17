@@ -1,5 +1,3 @@
-# ~/.config/fish/functions/start_tmux_sessions.fish
-
 function start_tmux_uploads
     set directory "/home/cameron/Documents/code/SiteDE.UploadPortal"
     tmux new-session -d -s uploads \; \
