@@ -7,7 +7,7 @@ sudo pacman -Syu --noconfirm
 sudo pacman -S --noconfirm nodejs npm php
 
 # Install additional development tools via yay
-yay -S --noconfirm neovim alacritty polybar starship tmux fish apache ttf-meslo-nerd stow
+yay -S --noconfirm neovim alacritty polybar starship tmux fish apache ttf-meslo-nerd stow lazygit
 
 # Script to install composer
 /home/iamcrjones/dotfiles/setup_scripts/composer_install.sh
