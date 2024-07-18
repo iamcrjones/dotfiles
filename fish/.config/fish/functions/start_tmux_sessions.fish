@@ -64,10 +64,9 @@ function start_tmux_fresh
         attach-session -t fresh
 end
 
-
 function start_sde
-    gnome-terminal --title="SDE API" -- fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_api; exec fish'
-    gnome-terminal --title="SDE AUTH" -- fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_auth; exec fish'
-    gnome-terminal --title="SDE SPOT" -- fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_spot; exec fish'
-    gnome-terminal --title="SDE UPLOADS" -- fish -c 'source ~/.config/fish/config.fish; start_tmux_uploads; exec fish'
+    alacritty --title "SDE API" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_api; fish' &
+    alacritty --title "SDE AUTH" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_auth; fish' &
+    alacritty --title "SDE SPOT" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_spot; fish' &
+    alacritty --title "SDE UPLOADS" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_uploads; fish' &
 end
