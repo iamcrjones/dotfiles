@@ -9,6 +9,6 @@ alias tmux-api="start_tmux_sde_api"
 alias tmux-auth="start_tmux_sde_auth"
 alias tmux-spot="start_tmux_sde_spot"
 alias tmux-sde="start_sde"
+
 set -x PATH $PATH /home/$USER/.local/share/bob/nvim-bin
 starship init fish | source
-nerdfetch
