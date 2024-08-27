@@ -33,7 +33,7 @@ function start_tmux_sde_api
 end
 
 function start_tmux_sde_auth
-    set directory "/home/cameron/Documents/code/SiteDE.Authentication"
+    set directory /home/cameron/Documents/code/SiteGUARD
     tmux new-session -d -s sde_auth \; \
         send-keys -t 0 "cd $directory; nvim" Enter \; \
         split-window -v -c $directory \; \
@@ -65,8 +65,8 @@ function start_tmux_fresh
 end
 
 function start_sde
-    alacritty --title "SDE API" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_api; fish' &
-    alacritty --title "SDE AUTH" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_auth; fish' &
-    alacritty --title "SDE SPOT" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_spot; fish' &
-    alacritty --title "SDE UPLOADS" -e fish -c 'source ~/.config/fish/config.fish; start_tmux_uploads; fish' &
+    alacritty --title SiteLINK -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_api; fish' &
+    alacritty --title SiteGUARD -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_auth; fish' &
+    alacritty --title SiteSPOT -e fish -c 'source ~/.config/fish/config.fish; start_tmux_sde_spot; fish' &
+    alacritty --title SiteDATA -e fish -c 'source ~/.config/fish/config.fish; start_tmux_uploads; fish' &
 end
