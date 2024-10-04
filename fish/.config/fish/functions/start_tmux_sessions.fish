@@ -1,5 +1,5 @@
 function start_tmux_uploads
-    set directory "/home/cameron/Documents/code/SiteDE.UploadPortal"
+    set directory /home/cameron/Documents/code/SiteDATA
     tmux new-session -d -s uploads \; \
         send-keys -t 0 "cd $directory; nvim" Enter \; \
         split-window -v -c $directory \; \
