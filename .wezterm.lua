@@ -21,6 +21,6 @@ config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.925
 config.macos_window_background_blur = 15
 
-config.default_prog = { "/opt/homebrew/bin/tmux" }
+-- config.default_prog = { "/opt/homebrew/bin/tmux" }
 
 return config
