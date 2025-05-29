@@ -1,17 +1,25 @@
--- ~/.config/nvim/lua/plugins/lsp.lua
 return {
-  "neovim/nvim-lspconfig",
-  opts = {
-    servers = {
-      tsserver = {},
+  {
+    "mason-org/mason.nvim",
+  config = function()
+    require("mason").setup()
+  end
+  }
+,{
+    "mason-org/mason-lspconfig.nvim",
+    opts = {ensure_installed = {"lua_ls","tsserver"}},
+    dependencies = {
+        { "mason-org/mason.nvim", opts = {} },
     },
-    setup = {
-      tsserver = function(_, opts)
-        opts.on_attach = function(client, bufnr)
-          client.server_capabilities.documentFormattingProvider = false
-        end
-        return false -- LazyVim will use this setup instead of the default
-      end,
-    },
-  },
+},{
+        "neovim/nvim-lspconfig",
+    config = function()
+    local lspconfig = require("lspconfig")
+      lspconfig.lua_ls.setup({})
+      lspconfig.tsserver.setup({})
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
+      vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {})
+    end
+  }
 }
