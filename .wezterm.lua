@@ -15,7 +15,7 @@ config.enable_tab_bar = false
 
 --Colors
 -- config.color_scheme = "Tokyo Night"
-config.color_scheme = "Gruvbox Material (Gogh)"
+config.color_scheme = "Gruvbox Dark (Gogh)"
 
 --Window config
 config.window_decorations = "RESIZE"
