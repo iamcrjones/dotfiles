@@ -8,7 +8,16 @@ return {
 	{
 		"mason-org/mason-lspconfig.nvim",
 		opts = {
-			ensure_installed = { "lua_ls", "ts_ls", "html", "intelephense", "marksman", "pest_ls", "tailwindcss", "jsonls" },
+			ensure_installed = {
+				"lua_ls",
+				"ts_ls",
+				"html",
+				"intelephense",
+				"marksman",
+				"pest_ls",
+				"tailwindcss",
+				"jsonls",
+			},
 		},
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
@@ -29,6 +38,7 @@ return {
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+			vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, {})
 		end,
 	},
 }
