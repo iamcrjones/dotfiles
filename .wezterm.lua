@@ -19,7 +19,7 @@ config.enable_tab_bar = false
 config.color_scheme = "Kanagawa (Gogh)"
 --Window config
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.925
+config.window_background_opacity = 0.8
 config.macos_window_background_blur = 15
 
 -- config.default_prog = { "/opt/homebrew/bin/tmux" }
