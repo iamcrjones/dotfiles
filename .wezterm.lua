@@ -15,8 +15,8 @@ config.enable_tab_bar = false
 
 --Colors
 -- config.color_scheme = "Tokyo Night"
-config.color_scheme = "Gruvbox Dark (Gogh)"
-
+-- config.color_scheme = "Palenight (Gogh)"
+config.color_scheme = "Kanagawa (Gogh)"
 --Window config
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.925
