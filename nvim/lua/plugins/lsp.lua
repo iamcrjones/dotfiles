@@ -1,44 +1,17 @@
+-- ~/.config/nvim/lua/plugins/lsp.lua
 return {
-	{
-		"mason-org/mason.nvim",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"mason-org/mason-lspconfig.nvim",
-		opts = {
-			ensure_installed = {
-				"lua_ls",
-				"ts_ls",
-				"html",
-				"intelephense",
-				"marksman",
-				"pest_ls",
-				"tailwindcss",
-				"jsonls",
-			},
-		},
-		dependencies = {
-			{ "mason-org/mason.nvim", opts = {} },
-		},
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({})
-			lspconfig.ts_ls.setup({})
-			lspconfig.html.setup({})
-			lspconfig.intelephense.setup({})
-			lspconfig.marksman.setup({})
-			lspconfig.pest_ls.setup({})
-			lspconfig.tailwindcss.setup({})
-			lspconfig.jsonls.setup({})
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-			vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, {})
-		end,
-	},
+  "neovim/nvim-lspconfig",
+  opts = {
+    servers = {
+      tsserver = {},
+    },
+    setup = {
+      tsserver = function(_, opts)
+        opts.on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = false
+        end
+        return false -- LazyVim will use this setup instead of the default
+      end,
+    },
+  },
 }

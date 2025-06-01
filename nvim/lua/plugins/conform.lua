@@ -1,32 +1,25 @@
+-- ~/.config/nvim/lua/plugins/conform.lua
 return {
-	"stevearc/conform.nvim",
-	event = { "BufWritePre" },
-	cmd = { "ConformInfo" },
-	-- This will provid type hinting with LuaLS
-	---@module "conform"
-	---@type conform.setupOpts
-	opts = {
-		-- Define your formatters
-		formatters_by_ft = {
-			lua = { "stylua" },
-			php = { "pint", "php_cs_fixer" },
-			javascript = { "prettierd", "prettier", stop_after_first = true },
-		},
-		-- Set default options
-		default_format_opts = {
-			lsp_format = "fallback",
-		},
-		-- Set up format-on-save
-		format_on_save = { timeout_ms = 500 },
-		-- Customize formatters
-		formatters = {
-			shfmt = {
-				prepend_args = { "-i", "2" },
-			},
-		},
-	},
-	init = function()
-		-- If you want the formatexpr, here is the place to set it
-		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-	end,
+  "stevearc/conform.nvim",
+  opts = {
+    formatters_by_ft = {
+      javascript = { "prettier_npx" },
+      typescript = { "prettier_npx" },
+      javascriptreact = { "prettier_npx" },
+      typescriptreact = { "prettier_npx" },
+      vue = { "prettier_npx" },
+      json = { "prettier_npx" },
+      html = { "prettier_npx" },
+      css = { "prettier_npx" },
+      scss = { "prettier_npx" },
+      -- php = { "prettier_npx" }, -- optional
+    },
+    formatters = {
+      prettier_npx = {
+        command = "npx",
+        args = { "prettier", "--stdin-filepath", "$FILENAME" },
+        cwd = require("conform.util").root_file({ ".prettierrc", "package.json" }),
+      },
+    },
+  },
 }
