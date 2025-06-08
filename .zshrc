@@ -7,6 +7,8 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH="/Users/cameron/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/Users/cameron/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
