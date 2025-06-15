@@ -1,0 +1,97 @@
+after-login-command = []
+
+after-startup-command = []
+
+start-at-login = true
+
+enable-normalization-flatten-containers = false
+enable-normalization-opposite-orientation-for-nested-containers = false
+
+accordion-padding = 30
+
+default-root-container-layout = 'tiles'
+
+# Possible values: horizontal|vertical|auto
+# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
+#               tall monitor (anything higher than wide) gets vertical orientation
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = []
+on-focus-changed = ['move-mouse window-lazy-center']
+
+# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
+# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
+# Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
+automatically-unhide-macos-hidden-apps = true
+
+[key-mapping]
+    preset = 'qwerty'
+
+[gaps]
+    inner.horizontal = 8
+    inner.vertical =   8
+    outer.left =       8
+    outer.bottom =     8
+    outer.top =        8
+    outer.right =      8
+
+[workspace-to-monitor-force-assignment]
+'1' = 'main' # Workspace 1 always starts on your main monitor
+'2' = 'secondary' # Workspace 2 always starts on your secondary monitor
+'3' = 'external' # Workspace 3 always starts on another external monitor
+
+# 'main' binding mode declaration
+# 'main' binding mode must be always presented
+# Fallback value (if you omit the key): mode.main.binding = {}
+[mode.main.binding]
+
+    cmd-ctrl-alt-shift-enter = 'exec-and-forget open -n -a wezterm'
+
+    ctrl-alt-shift-s = 'focus --boundaries-action wrap-around-the-workspace left'
+    ctrl-alt-shift-d = 'focus --boundaries-action wrap-around-the-workspace down'
+    ctrl-alt-shift-e = 'focus --boundaries-action wrap-around-the-workspace up'
+    ctrl-alt-shift-f = 'focus --boundaries-action wrap-around-the-workspace right'
+
+    cmd-ctrl-alt-shift-s = 'move left'
+    cmd-ctrl-alt-shift-d = 'move down'
+    cmd-ctrl-alt-shift-e = 'move up'
+    cmd-ctrl-alt-shift-f = 'move right'
+
+    alt-h = 'split horizontal'
+    alt-v = 'split vertical'
+
+    cmd-ctrl-alt-shift-space = 'fullscreen'
+
+    alt-s = 'layout v_accordion' 
+    alt-w = 'layout h_accordion'
+    alt-e = 'layout tiles horizontal vertical' 
+
+    alt-shift-space = 'layout floating tiling'
+
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+
+    alt-tab = 'workspace-back-and-forth'
+    alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    alt-shift-semicolon = 'mode service'
+
+[mode.service.binding]
+    esc = ['reload-config', 'mode main']
+    r = ['flatten-workspace-tree', 'mode main'] # reset layout
+    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    backspace = ['close-all-windows-but-current', 'mode main']
+
+    alt-shift-h = ['join-with left', 'mode main']
+    alt-shift-j = ['join-with down', 'mode main']
+    alt-shift-k = ['join-with up', 'mode main']
+    alt-shift-l = ['join-with right', 'mode main']
+
+    down = 'volume down'
+    up = 'volume up'
+    shift-down = ['volume set 0', 'mode main']
