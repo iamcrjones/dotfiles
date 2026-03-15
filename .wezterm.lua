@@ -16,12 +16,13 @@ config.enable_tab_bar = false
 --Colors
 -- config.color_scheme = "Tokyo Night"
 -- config.color_scheme = "Palenight (Gogh)"
--- config.color_scheme = "Kanagawa (Gogh)"
-config.color_scheme = "Everforest Dark (Gogh)"
+-- config.color_scheme = "kanagawabones"
+config.color_scheme = "zenbones_dark"
+-- config.color_scheme = "Everforest Dark (Gogh)"
 
 --Window config
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.75
+config.window_background_opacity = 0.95
 config.macos_window_background_blur = 15
 
 -- config.default_prog = { "/opt/homebrew/bin/tmux" }
