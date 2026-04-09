@@ -1,30 +1,10 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  branch = 'main', -- Ensure you are on 'main'
   build = ':TSUpdate',
-  main = 'nvim-treesitter.configs',
-  opts = {
-    ensure_installed = {
-      'bash',
-      'c',
-      'diff',
-      'html',
-      'lua',
-      'luadoc',
-      'markdown',
-      'markdown_inline',
-      'query',
-      'vim',
-      'vimdoc',
-      'javascript',
-      'typescript',
-      'php',
-      'blade',
-    },
-    auto_install = true,
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = { 'ruby' },
-    },
-    indent = { enable = true, disable = { 'ruby' } },
-  },
+  config = function()
+    require('nvim-treesitter').setup {
+      -- your config here
+    }
+  end,
 }
