@@ -8,7 +8,7 @@ return {
   },
   config = function()
     vim.api.nvim_create_autocmd('LspAttach', {
-      group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+      group = vim.api.nvim_create_augroup('custom-lsp-attach', { clear = true }),
       callback = function(event)
         local map = function(keys, func, desc, mode)
           mode = mode or 'n'
@@ -36,7 +36,7 @@ return {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-          local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+          local highlight_augroup = vim.api.nvim_create_augroup('custom-lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
             group = highlight_augroup,
@@ -50,10 +50,10 @@ return {
           })
 
           vim.api.nvim_create_autocmd('LspDetach', {
-            group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+            group = vim.api.nvim_create_augroup('custom-lsp-detach', { clear = true }),
             callback = function(event2)
               vim.lsp.buf.clear_references()
-              vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+              vim.api.nvim_clear_autocmds { group = 'custom-lsp-highlight', buffer = event2.buf }
             end,
           })
         end
@@ -93,6 +93,13 @@ return {
       },
     }
 
+    vim.filetype.add {
+      pattern = {
+        ['.*%.yaml%..*'] = 'yaml',
+        ['.*%.yml%..*'] = 'yaml',
+      },
+    }
+
     local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     local servers = {
@@ -103,6 +110,7 @@ return {
       intelephense = {},
       cssls = {},
       html = {},
+      yamlls = {},
       lua_ls = {
         settings = {
           Lua = {
