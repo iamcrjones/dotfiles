@@ -1,0 +1,35 @@
+{
+  "env": {
+    "DISABLE_AUTOUPDATER": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {},
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r \".tool_input.command\" | grep -qE '(^|[;&|(]|`|\\$\\()[[:space:]]*(rtk[[:space:]]+)?git([[:space:]]+(-{1,2}[^[:space:]]*|[^[:space:]]+=[^[:space:]]*))*[[:space:]]+commit([[:space:]]|$)' && printf \"%s\" '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"ask\",\"permissionDecisionReason\":\"git commit writes history - confirm before running\"}}' || true",
+            "statusMessage": "Checking for git commit"
+          }
+        ]
+      }
+    ]
+  },
+  "model": "claude-opus-4-8",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/cameronjones/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "php-lsp@claude-plugins-official": true,
+    "greptile@claude-plugins-official": true
+  },
+  "effortLevel": "xhigh",
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark-ansi",
+  "teammateMode": "tmux",
+  "voiceEnabled": false
+}

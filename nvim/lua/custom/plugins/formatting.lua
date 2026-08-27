@@ -32,6 +32,7 @@ return {
       typescript = { 'prettier', stop_after_first = true },
       typescriptreact = { 'prettier', stop_after_first = true },
       php = { 'phpcbf', 'pint', stop_after_first = true },
+      json = { 'prettier', stop_after_first = true },
     },
     format_after_save = {
       lsp_format = 'fallback',
