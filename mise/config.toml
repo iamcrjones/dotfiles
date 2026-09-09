@@ -1,0 +1,12 @@
+# Global language runtimes managed by mise.
+# Symlinked to ~/.config/mise/config.toml by install.sh.
+#
+# Install/sync with:  mise install
+# composer is added by install.sh (via `mise use -g composer`) after php exists,
+# because the composer backend needs a php runtime present.
+#
+# Add more languages freely, e.g.:  mise use -g python@3.12   go@latest   ruby@3.3
+
+[tools]
+node = "lts"
+php = "8.4"
