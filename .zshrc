@@ -33,8 +33,8 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 autoload -Uz compinit
 compinit
 
-# Composer global bin (composer is installed via mise once php is present)
-export PATH="$PATH:$HOME/.composer/vendor/bin"
+# Composer global bin (Composer is bundled with php via the verzly/mise-php plugin)
+export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 
 # mise — manages node, php, and any other language runtimes
 eval "$(mise activate zsh)"

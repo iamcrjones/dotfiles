@@ -2,8 +2,8 @@
 # Install everything with:  brew bundle --file=Brewfile
 # Idempotent: already-installed packages are skipped.
 #
-# NOTE: language runtimes (node, php, composer) are NOT here.
-#       They are managed by mise — see mise/config.toml.
+# NOTE: language runtimes (node, php, composer) are NOT here — they're managed
+#       by mise (see mise/config.toml).
 
 # --- Shell & prompt ---
 brew "starship"
@@ -43,23 +43,3 @@ brew "colima"                     # Docker daemon in a small VM (run `colima sta
 brew "docker"                     # docker CLI
 brew "docker-compose"             # compose plugin
 brew "lazydocker"                 # Docker TUI (works with Colima)
-
-# --- PHP build deps for mise (uncomment if `mise install php` fails to compile) ---
-# brew "autoconf"
-# brew "automake"
-# brew "bison"
-# brew "freetype"
-# brew "gd"
-# brew "gettext"
-# brew "icu4c"
-# brew "krb5"
-# brew "libedit"
-# brew "libiconv"
-# brew "libjpeg"
-# brew "libpng"
-# brew "libxml2"
-# brew "libzip"
-# brew "openssl@3"
-# brew "pkg-config"
-# brew "re2c"
-# brew "zlib"

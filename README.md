@@ -12,7 +12,7 @@ cd ~/Code/dotfiles
 
 1. Ensures Xcode Command Line Tools + Homebrew are installed
 2. Installs everything in `Brewfile` (`brew bundle`)
-3. Installs language runtimes (node, php) + composer via **mise**
+3. Installs language runtimes (node, php@8.5, composer) via **mise**
 4. Symlinks configs into place, backing up anything it would overwrite to
    `~/.dotfiles-backup/<timestamp>/`
 5. Clones TPM and installs tmux plugins
@@ -47,8 +47,10 @@ only the tracked `.claude` items (`settings.json`, `statusline-command.sh`,
 ## Tooling model
 
 - **Homebrew** installs CLI tools + GUI apps (see `Brewfile`).
-- **mise** manages language runtimes (node, php, composer, ...) — not Homebrew, not Herd.
-  Add a language with e.g. `mise use -g python@3.12`.
+- **mise** manages language runtimes (node, php, composer, ...) — not Herd.
+  PHP uses the `verzly/mise-php` plugin (registered in `install.sh`) so it isn't
+  compiled from source — it also bundles Composer. Add a language with e.g.
+  `mise use -g python@3.12`.
 
 ## Manual steps
 

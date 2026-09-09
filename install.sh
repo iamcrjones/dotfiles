@@ -65,10 +65,12 @@ brew bundle --file="$DOTFILES/Brewfile"
 link "$DOTFILES/mise/config.toml" "$HOME/.config/mise/config.toml"
 
 if command -v mise >/dev/null 2>&1; then
-  info "Installing language runtimes with mise (node, php)..."
+  # PHP via the verzly/mise-php plugin (prebuilt; avoids compiling from source).
+  # The plugin also installs a dedicated Composer alongside each PHP version.
+  info "Registering the php mise plugin..."
+  mise plugins ls 2>/dev/null | grep -qx php || mise plugins add php verzly/mise-php
+  info "Installing language runtimes with mise (node, php@8.5 + bundled composer)..."
   mise install
-  info "Installing composer (mise; uses the mise-managed php)..."
-  mise use -g composer@latest || warn "composer via mise failed — install it manually with php on PATH."
 else
   warn "mise not found on PATH; skipping runtime install."
 fi
