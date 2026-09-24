@@ -5,6 +5,7 @@ return {
     { import = 'custom.plugins.lsp.mason' },
     { import = 'custom.plugins.telescope' },
     'saghen/blink.cmp',
+    'b0o/schemastore.nvim',
   },
   config = function()
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -100,40 +101,112 @@ return {
       },
     }
 
+    -- blink.cmp advertises richer completion capabilities than Neovim's
+    -- defaults. Apply them to every server via the wildcard ('*') config.
     local capabilities = require('blink.cmp').get_lsp_capabilities()
+    vim.lsp.config('*', { capabilities = capabilities })
 
-    local servers = {
-      ts_ls = {},
-      svelte = {},
-      tailwindcss = {},
-      marksman = {},
-      intelephense = {},
-      cssls = {},
-      html = {},
-      yamlls = {},
-      lua_ls = {
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
+    -- Path to the bundled @vue/language-server. ts_ls loads the
+    -- @vue/typescript-plugin from here to type-check .vue <script> blocks.
+    local vue_language_server_path = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server'
+
+    -- Per-server overrides. These are deep-merged on top of the defaults
+    -- nvim-lspconfig ships in its lsp/ directory, so servers not listed here
+    -- (tailwindcss, cssls, html, eslint, jsonls, emmet, yamlls,
+    -- marksman, intelephense, ...) just use those defaults. mason-lspconfig
+    -- (v2) auto-enables every installed server for us.
+    vim.lsp.config('lua_ls', {
+      settings = {
+        Lua = {
+          completion = { callSnippet = 'Replace' },
+        },
+      },
+    })
+
+    -- Vue 3 hybrid mode: vue_ls owns the <template>/<style>, while ts_ls owns
+    -- the <script> via the Vue TypeScript plugin. For this to work ts_ls must
+    -- also attach to .vue files. The shipped vue_ls config already forwards
+    -- TypeScript requests to ts_ls, so no vue_ls override is needed here.
+    vim.lsp.config('ts_ls', {
+      filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+      init_options = {
+        plugins = {
+          {
+            name = '@vue/typescript-plugin',
+            location = vue_language_server_path,
+            languages = { 'vue' },
+          },
+        },
+      },
+    })
+
+    -- JSON/YAML schema validation via SchemaStore's catalog: field-level
+    -- validation, autocomplete and hover for package.json, tsconfig.json,
+    -- eas.json, GitHub Actions, docker-compose, and ~1400 others. app.json is
+    -- mapped explicitly because SchemaStore leaves its fileMatch empty.
+    vim.lsp.config('jsonls', {
+      settings = {
+        json = {
+          validate = { enable = true },
+          schemas = require('schemastore').json.schemas {
+            extra = {
+              {
+                name = 'Expo app config',
+                fileMatch = { 'app.json', 'app.config.json' },
+                url = 'https://www.schemastore.org/expo-53.0.0.json',
+              },
             },
           },
         },
       },
-    }
+    })
 
-    require('mason-tool-installer').setup { ensure_installed = {} }
+    vim.lsp.config('yamlls', {
+      settings = {
+        yaml = {
+          -- Use SchemaStore's catalog instead of yaml-language-server's built-in one.
+          schemaStore = { enable = false, url = '' },
+          schemas = require('schemastore').yaml.schemas(),
+        },
+      },
+    })
+
+    -- Install the language servers, formatters and linters this config relies
+    -- on, so a fresh machine reproduces the setup. mason-lspconfig then enables
+    -- each installed server automatically.
+    require('mason-tool-installer').setup {
+      ensure_installed = {
+        -- Web / JS / TS / Vue
+        'typescript-language-server',
+        'vue-language-server',
+        'eslint-lsp',
+        'tailwindcss-language-server',
+        'css-lsp',
+        'html-lsp',
+        'json-lsp',
+        'emmet-language-server',
+        'prettier',
+        'prettierd',
+        -- Lua
+        'lua-language-server',
+        'stylua',
+        -- PHP
+        'intelephense',
+        'php-cs-fixer',
+        'phpcbf',
+        'phpcs',
+        'pint',
+        -- Other
+        'yaml-language-server',
+        'marksman',
+        'markdownlint',
+        'shfmt',
+      },
+    }
 
     require('mason-lspconfig').setup {
       ensure_installed = {},
-      automatic_installation = false,
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
+      automatic_enable = true,
     }
   end,
 }
