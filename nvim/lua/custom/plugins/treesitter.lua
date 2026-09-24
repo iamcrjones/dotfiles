@@ -21,6 +21,7 @@ return {
       ensure_installed = {
         'bash',
         'c',
+        'css',
         'diff',
         'html',
         'javascript',
@@ -35,11 +36,13 @@ return {
         'python',
         'query',
         'regex',
+        'scss',
         'toml',
         'tsx',
         'typescript',
         'vim',
         'vimdoc',
+        'vue',
         'xml',
         'yaml',
       },
@@ -150,12 +153,5 @@ return {
       })
       vim.tbl_map(attach, vim.api.nvim_list_bufs())
     end,
-  },
-
-  -- Automatically add closing tags for HTML and JSX
-  {
-    'windwp/nvim-ts-autotag',
-    event = 'VeryLazy',
-    opts = {},
   },
 }
