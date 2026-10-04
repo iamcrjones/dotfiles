@@ -65,8 +65,6 @@ brew bundle --file="$DOTFILES/Brewfile"
 link "$DOTFILES/mise/config.toml" "$HOME/.config/mise/config.toml"
 
 if command -v mise >/dev/null 2>&1; then
-  # PHP via the verzly/mise-php plugin (prebuilt; avoids compiling from source).
-  # The plugin also installs a dedicated Composer alongside each PHP version.
   info "Registering the php mise plugin..."
   mise plugins ls 2>/dev/null | grep -qx php || mise plugins add php verzly/mise-php
   info "Installing language runtimes with mise (node, php@8.5 + bundled composer)..."
@@ -96,9 +94,6 @@ else
   warn "Wallpaper file not found at $WALLPAPER_FILE; skipping wallpaper configuration."
 fi
 
-# NOTE: Claude Code (cask + ~/.claude symlinks) is handled separately by
-#       ./install-claude.sh so personal machines can skip it.
-
 # ---------------------------------------------------------------------------
 # 5. tmux plugin manager (TPM) + plugins
 # ---------------------------------------------------------------------------
@@ -122,21 +117,19 @@ if command -v nvim >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
-# 7. 1password setup
+# 7. 1Password setup
 # ---------------------------------------------------------------------------
-
 echo "Opening 1Password..."
-open -a "1Password"
+open -a "1Password" || warn "1Password app not found."
 
-# Pause and wait for user authentication
 echo "--------------------------------------------------------"
 echo "👉 ACTION REQUIRED:"
 echo "Sign in to the 1Password Desktop App."
 echo "Also ensure 'Use the SSH Agent' is enabled in Settings > Developer."
 echo "--------------------------------------------------------"
-read -p "Press [Enter] AFTER you have successfully logged into 1Password..."
+printf "Press [Enter] AFTER you have successfully logged into 1Password... "
+read -r _
 
-# Create SSH directories and inject config
 SSH_DIR="$HOME/.ssh"
 SSH_CONFIG="$SSH_DIR/config"
 OP_AGENT='  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"'
@@ -146,16 +139,15 @@ chmod 700 "$SSH_DIR"
 touch "$SSH_CONFIG"
 
 if grep -q "1password" "$SSH_CONFIG"; then
-    echo "✅ SSH config already updated."
+  echo "✅ SSH config already updated."
 else
-    echo -e "\nHost *\n$OP_AGENT" >> "$SSH_CONFIG"
-    chmod 600 "$SSH_CONFIG"
-    echo "✅ Successfully updated $SSH_CONFIG"
+  printf "\nHost *\n%s\n" "$OP_AGENT" >> "$SSH_CONFIG"
+  chmod 600 "$SSH_CONFIG"
+  echo "✅ Successfully updated $SSH_CONFIG"
 fi
 
-# Trigger the first biometric unlock to confirm it works
 echo "Testing setup... Touch your Mac's Touch ID if prompted:"
-ssh -T git@github.com -o StrictHostKeyChecking=accept-new
+ssh -T git@github.com -o StrictHostKeyChecking=accept-new || true
 
 # ---------------------------------------------------------------------------
 # Done
@@ -164,7 +156,7 @@ info "Bootstrap complete."
 echo
 echo "Manual follow-ups:"
 echo "  - Rectangle: open Rectangle -> Settings -> import '$DOTFILES/RectangleConfig.json'"
-echo "  - Reload your shell:  exec zsh   (or restart the terminal)"
+echo "  - Reload your shell:   exec zsh   (or restart the terminal)"
 echo "  - tmux: if plugins didn't auto-install, start tmux and press <prefix> + I"
 echo "  - Docker: run 'colima start' to boot the Docker daemon (Colima)"
 echo "  - Claude Code (work machines only): ./install-claude.sh"
