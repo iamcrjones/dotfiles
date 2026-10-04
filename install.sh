@@ -85,6 +85,17 @@ link "$DOTFILES/.wezterm.lua"  "$HOME/.wezterm.lua"
 link "$DOTFILES/nvim"          "$HOME/.config/nvim"
 link "$DOTFILES/starship.toml" "$HOME/.config/starship.toml"
 
+# ---------------------------------------------------------------------------
+# 4b. Set Desktop Wallpaper
+# ---------------------------------------------------------------------------
+WALLPAPER_FILE="$DOTFILES/koi.png"
+if [ -f "$WALLPAPER_FILE" ]; then
+  info "Setting desktop wallpaper..."
+  osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$WALLPAPER_FILE\""
+else
+  warn "Wallpaper file not found at $WALLPAPER_FILE; skipping wallpaper configuration."
+fi
+
 # NOTE: Claude Code (cask + ~/.claude symlinks) is handled separately by
 #       ./install-claude.sh so personal machines can skip it.
 
@@ -109,6 +120,42 @@ if command -v nvim >/dev/null 2>&1; then
   nvim --headless "+Lazy! sync" +qa || warn "nvim plugin sync had issues; open nvim to finish."
   warn "Run :Mason in nvim to install LSP servers/formatters (needs node + php on PATH)."
 fi
+
+# ---------------------------------------------------------------------------
+# 7. 1password setup
+# ---------------------------------------------------------------------------
+
+echo "Opening 1Password..."
+open -a "1Password"
+
+# Pause and wait for user authentication
+echo "--------------------------------------------------------"
+echo "👉 ACTION REQUIRED:"
+echo "Sign in to the 1Password Desktop App."
+echo "Also ensure 'Use the SSH Agent' is enabled in Settings > Developer."
+echo "--------------------------------------------------------"
+read -p "Press [Enter] AFTER you have successfully logged into 1Password..."
+
+# Create SSH directories and inject config
+SSH_DIR="$HOME/.ssh"
+SSH_CONFIG="$SSH_DIR/config"
+OP_AGENT='  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"'
+
+mkdir -p "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+touch "$SSH_CONFIG"
+
+if grep -q "1password" "$SSH_CONFIG"; then
+    echo "✅ SSH config already updated."
+else
+    echo -e "\nHost *\n$OP_AGENT" >> "$SSH_CONFIG"
+    chmod 600 "$SSH_CONFIG"
+    echo "✅ Successfully updated $SSH_CONFIG"
+fi
+
+# Trigger the first biometric unlock to confirm it works
+echo "Testing setup... Touch your Mac's Touch ID if prompted:"
+ssh -T git@github.com -o StrictHostKeyChecking=accept-new
 
 # ---------------------------------------------------------------------------
 # Done
