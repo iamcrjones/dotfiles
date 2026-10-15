@@ -163,3 +163,8 @@ echo "  - Claude Code (work machines only): ./install-claude.sh"
 if [ -d "$BACKUP_DIR" ]; then
   echo "  - Replaced files were backed up to: $BACKUP_DIR"
 fi
+
+
+
+
+

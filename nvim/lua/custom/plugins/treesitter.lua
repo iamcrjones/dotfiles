@@ -32,6 +32,7 @@ return {
         'luap',
         'markdown',
         'markdown_inline',
+        'php',
         'printf',
         'python',
         'query',
@@ -52,8 +53,7 @@ return {
       local TS = require 'nvim-treesitter'
 
       setmetatable(require 'nvim-treesitter.install', {
-        __newindex = function(_, k)
-        end,
+        __newindex = function(_, k) end,
       })
 
       -- some quick sanity checks
@@ -65,8 +65,7 @@ return {
       TS.setup(opts)
 
       -- install missing parsers
-      local install = vim.tbl_filter(function(lang)
-      end, opts.ensure_installed or {})
+      local install = vim.tbl_filter(function(lang) end, opts.ensure_installed or {})
 
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('lazyvim_treesitter', { clear = true }),
@@ -77,7 +76,7 @@ return {
           ---@param query string
           local function enabled(feat, query)
             local f = opts[feat] or {} ---@type lazyvim.TSFeat
-            return f.enable ~= false and not (type(f.disable) == 'table' and vim.tbl_contains(f.disable, lang)) 
+            return f.enable ~= false and not (type(f.disable) == 'table' and vim.tbl_contains(f.disable, lang))
           end
 
           -- highlighting
