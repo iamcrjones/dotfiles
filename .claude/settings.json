@@ -21,7 +21,7 @@
   "model": "claude-opus-4-8",
   "statusLine": {
     "type": "command",
-    "command": "bash /Users/cameronjones/.claude/statusline-command.sh"
+    "command": "bash ~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "php-lsp@claude-plugins-official": true,

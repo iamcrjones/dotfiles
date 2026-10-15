@@ -83,4 +83,10 @@ if [ -n "$used_pct" ]; then
     parts="${parts}$(printf "  ${ctx_color}ctx:%s%%${reset}" "$used_int")"
 fi
 
+# Unread PR reviews (from ~/.claude/pr-review-watcher)
+unread=$(find "$HOME/.claude/pr-review-watcher/reports" -maxdepth 1 -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+if [ "${unread:-0}" -gt 0 ]; then
+    parts="${parts}$(printf "  ${yellow}${bold}● %s PR review%s${reset}" "$unread" "$([ "$unread" -eq 1 ] || echo s)")"
+fi
+
 printf "%b\n" "$parts"
