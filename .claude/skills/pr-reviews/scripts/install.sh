@@ -8,7 +8,7 @@
 # PR_WATCHER_INTERVAL=<seconds> overrides the 300s interval.
 set -euo pipefail
 
-LABEL="au.com.trilogycare.pr-review-watcher"
+LABEL="com.iamcrjones.pr-review-watcher"
 INTERVAL="${PR_WATCHER_INTERVAL:-300}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 DATA="$HOME/.claude/pr-review-watcher"
@@ -30,6 +30,8 @@ for cmd in claude gh git jq osascript; do
   command -v "$cmd" >/dev/null || die "'$cmd' not found on PATH"
 done
 gh auth status >/dev/null 2>&1 || die "gh isn't logged in; run: gh auth login"
+# The watcher clones over HTTPS so it doesn't depend on an SSH agent that may be locked
+gh auth setup-git
 [[ -f "$HOME/.claude/commands/review.md" ]] || die "~/.claude/commands/review.md (the four-pass /review command) is missing"
 
 chmod +x "$SCRIPT_DIR/run.sh" "$SCRIPT_DIR/read.sh"
