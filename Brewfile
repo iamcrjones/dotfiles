@@ -11,6 +11,21 @@ brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 brew "mise"                       # runtime version manager (node, php, ...)
 
+# --- Mise deps ---
+brew "pkg-config"
+brew "icu4c"
+brew "openssl@3"
+brew "libxml2"
+brew "libpng"
+brew "jpeg"
+brew "webp"
+brew "freetype"
+brew "gettext"
+brew "zlib"
+brew "bzip2"
+brew "libiconv"
+brew "bison"
+
 # --- Editor ---
 brew "neovim"
 brew "stylua"                     # Lua formatter used by nvim (conform.nvim)
@@ -43,3 +58,4 @@ brew "colima"                     # Docker daemon in a small VM (run `colima sta
 brew "docker"                     # docker CLI
 brew "docker-compose"             # compose plugin
 brew "lazydocker"                 # Docker TUI (works with Colima)
+

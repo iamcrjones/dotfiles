@@ -9,5 +9,5 @@
 #   mise use -g python@3.12   go@latest   ruby@3.3
 
 [tools]
-node = "lts"
+node = "26"
 php = "8.5"
